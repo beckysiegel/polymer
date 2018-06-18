@@ -814,6 +814,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     let context = inst._methodHost || inst;
     let fn = context[info.methodName];
     if (fn) {
+      if (inst.usePolymer1StyleObserver) {
+        for (const arg of args) {
+          if (arg === undefined) {
+            console.warn(`arg is not defined, add an undefined check before removing usePolymer1StyleObserver if there is `
+                         + `not one already`);
+            return;
+          }
+        }
+      }
+      return fn.apply(context, args);
       let args = marshalArgs(inst.__data, info.args, property, props);
       return fn.apply(context, args);
     } else if (!info.dynamicFn) {
